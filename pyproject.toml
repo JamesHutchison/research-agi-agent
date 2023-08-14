@@ -5,3 +5,25 @@ line-length = 120
 [tool.black]
 # soft limit, wrap just before 100 chars
 line-length = 98
+
+[tool.poetry]
+name = "research-agi-agent"
+version = "0.1.0"
+description = ""
+authors = ["James Hutchison <jamesghutchison@proton.me>"]
+readme = "README.md"
+packages = [{ include = "research_agi_agent" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.5.0"
+ruff = "^0.0.284"
+black = "^23.7.0"
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

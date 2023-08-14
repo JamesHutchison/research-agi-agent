@@ -17,3 +17,6 @@ The AGI agent will generate a research document summarizing the claim, the ramif
   - Researcher - Takes information from the initiator and expert and checks facts and researches topics and concepts to help richen the knowledge in the context which the actors are working
   - Mathematician and Programmer - If needed, determines whether there are relevant mathematical models which could be applied that would help refute or support the claim, and then creates code to run the model against known facts.
   - Summarizer - After the initiator is satisified, aggregates the exchange between the roles and produces a document. Bonus points if it can generate visualizations.
+
+# Quickstart
+This repo has a dev container configuration. Simply create a new Codespace in GitHub.

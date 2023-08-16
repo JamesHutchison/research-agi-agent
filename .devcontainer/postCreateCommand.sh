@@ -14,3 +14,25 @@ poetry install --with=dev || true
 
 mkdir -p .dev_container_logs
 echo "*" > .dev_container_logs/.gitignore
+
+# git clone SuperAGI if it doesn't exist
+if [ ! -d ../SuperAGI ]; then
+    git clone https://github.com/TransformerOptimus/SuperAGI.git /workspaces/SuperAGI
+fi
+
+# make a copy of the SuperAGI config from the template if it does not exist
+if [ ! -f /workspaces/SuperAGI/config.yaml ]; then
+    cp /workspaces/SuperAGI/config_template.yaml /workspaces/SuperAGI/config.yaml
+fi
+
+# soft link to superAGI
+# make external_tools directory if it doesnt exist
+mkdir -p /workspaces/SuperAGI/superagi/tools/external_tools
+# soft link DeepResearchTool if it doesn't exist
+if [ ! -d /workspaces/SuperAGI/superagi/tools/external_tools/DeepResearchTool ]; then
+    ln -s /workspaces/research-agi-agent/DeepResearchTool /workspaces/SuperAGI/superagi/tools/external_tools/DeepResearchTool
+fi
+
+# build SuperAGI
+cd /workspaces/SuperAGI
+docker compose build

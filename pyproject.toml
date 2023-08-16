@@ -16,6 +16,10 @@ packages = [{ include = "research_agi_agent" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+streamlit = "^1.25.0"
+langchain = "^0.0.265"
+langchain-experimental = "^0.0.9"
+faiss-cpu = "^1.7.4"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -14,6 +14,12 @@
             "type": "shell",
             "command": "poetry export --output requirements.txt",
             "problemMatcher": []
+        },
+        {
+            "label": "Run migrations",
+            "type": "shell",
+            "command": "cd /workspaces/research-agi-agent && PYTHONPATH=/workspaces/SuperAGI alembic upgrade head",
+            "problemMatcher": []
         }
     ]
 }

@@ -1,7 +1,8 @@
 from abc import ABC
-from superagi.tools.base_tool import BaseToolkit, BaseTool
-from typing import Type, List
-from greetings_tool import GreetingsTool
+from typing import List, Type
+
+from deep_research_tool import DeepResearchTool
+from superagi.tools.base_tool import BaseTool, BaseToolkit
 
 
 class DeepResearchToolkit(BaseToolkit, ABC):
@@ -9,7 +10,7 @@ class DeepResearchToolkit(BaseToolkit, ABC):
     description: str = "Toolkit for doing deep research and writing summarized findings."
 
     def get_tools(self) -> List[BaseTool]:
-        return [GreetingsTool()]
+        return [DeepResearchTool()]
 
     def get_env_keys(self) -> List[str]:
         return []

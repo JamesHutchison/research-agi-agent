@@ -22,7 +22,7 @@ fi
 
 # make a copy of the SuperAGI config from the template if it does not exist
 if [ ! -f /workspaces/SuperAGI/config.yaml ]; then
-    cp /workspaces/SuperAGI/config_template.yaml /workspaces/SuperAGI/config.yaml
+    cp /workspaces/research-agi-agent/.devcontainer/config_template.yaml /workspaces/SuperAGI/config.yaml
 fi
 
 # soft link to superAGI
@@ -33,6 +33,6 @@ if [ ! -d /workspaces/SuperAGI/superagi/tools/external_tools/DeepResearchTool ];
     ln -s /workspaces/research-agi-agent/DeepResearchTool /workspaces/SuperAGI/superagi/tools/external_tools/DeepResearchTool
 fi
 
-# build SuperAGI
+# setup SuperAGI
 cd /workspaces/SuperAGI
-docker compose build
+pip install -r requirements.txt

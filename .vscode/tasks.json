@@ -26,6 +26,12 @@
             "type": "shell",
             "command": "echo '\nUsing codespaces:\n\nRun the backend and Celery launch configuration. Then run the \"Start Super AGI docker containers\" task.\nAfter that, go to ports in VS Code and change port 3000 to public, and click on the icon to open it in a browser\n\n'",
             "problemMatcher": []
+        },
+        {
+            "label": "How to search the SuperAGI repo",
+            "type": "shell",
+            "command": "echo '\nIf you add \"/workspaces/SuperAGI\" it to the workspace, the Rust extension will break due to a bug.\nInstead, you can set the files to include to \"/workspaces/SuperAGI\" and for files to exclude,\ndisable the \"Use Exclude Settings and Ignore Files\" button (cog with minus sign)\n\n'",
+            "problemMatcher": []
         }
     ]
 }

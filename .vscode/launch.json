@@ -48,6 +48,15 @@
             ],
             "console": "integratedTerminal",
             "justMyCode": false,
+        },
+    ],
+    "compounds": [
+        {
+            "name": "Run backend and Celery",
+            "configurations": [
+                "Run backend",
+                "Run Celery"
+            ],
         }
     ]
 }

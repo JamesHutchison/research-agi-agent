@@ -52,16 +52,16 @@ We will need internet search and other custom tooling so this is not a good fit.
 Similar to AutoGPT but a much larger framework and built to be ran from a web page. SuperAGI feels more user friendly for non-technical users and has a lot of functionality in place to make it a compelling product once the rough edges are ironed out.
 
 ## Pros
-- A lot out of the box
+- A lot out of the box, including logic, various configuration options, and a GUI
+- Sponsoring Hackathon
 
 ## Cons
-- immature
 - missing documentation for use cases like creating sharable agent templates
-- much more complex to run locally. Seems to fail randomly and relies on docker compose which is fine up until you want the debugger.
-- use of database creates friction for development
+- more complex to run locally
 - Lack of guidance on how we would deploy a public facing demoable proof of concept
-- Existing code isn't always obvious or intuitive due to lack of documentation.
+- Documentation gaps
 - Agent workflows seem to be built at start-up for SuperAGI with no obvious guidance on how to add them later.
+  - Could likely seed them via a script
 
 ## Conclusion
 Since SuperGPT is sponsoring this hackathon, we feel obligated to use this. We feel confident in being able to build a solution, but it may be more work than using LangChain + Streamlit.

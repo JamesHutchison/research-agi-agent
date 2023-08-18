@@ -44,7 +44,8 @@ class DeepResearchWriterTool(BaseTool):
         ###
 
         Provide a markdown formatted file describing the topics derived from the user query.
-        Afterwards, you are done! Nothing more to do!
+
+        Markdown file contents:
         """
 
         return (

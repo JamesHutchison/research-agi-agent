@@ -33,6 +33,11 @@ if [ ! -d /workspaces/SuperAGI/superagi/tools/external_tools/DeepResearchTool ];
     ln -s /workspaces/research-agi-agent/DeepResearchTool /workspaces/SuperAGI/superagi/tools/external_tools/DeepResearchTool
 fi
 
+# write env from template if needed
+if [ ! -f /workspaces/research-agi-agent/.env ]; then
+    cp /workspaces/research-agi-agent/.devcontainer/env_template /workspaces/research-agi-agent/.env
+fi
+
 # setup SuperAGI
 cd /workspaces/SuperAGI
 pip install -r requirements.txt

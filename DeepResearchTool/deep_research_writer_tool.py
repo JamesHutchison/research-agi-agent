@@ -18,7 +18,7 @@ class DeepResearchWriter(BaseModel):
 
 class DeepResearchWriterTool(BaseTool):
     """
-    Tool for writing the output of the Deep research tool
+    Tool for writing the output of the Deep research tool. If deep research was not done, this tool will fail to run
     """
 
     name: str = "Deep Research Writer Tool"

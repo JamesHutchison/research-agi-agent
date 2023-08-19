@@ -17,6 +17,7 @@ packages = [{ include = "research_agi_agent" }]
 [tool.poetry.dependencies]
 python = "^3.11"
 superagi-tools = "^1.0.7"
+langchain = "^0.0.268"
 
 
 [tool.poetry.group.dev.dependencies]

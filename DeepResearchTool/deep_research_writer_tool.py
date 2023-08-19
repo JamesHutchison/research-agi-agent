@@ -6,18 +6,19 @@ from superagi.llms.base_llm import BaseLlm
 from superagi.resource_manager.file_manager import FileManager
 from superagi.tools.base_tool import BaseTool
 
-from DeepResearchTool.const import TOPICS_FILE, USER_QUERY_FILE
+from DeepResearchTool.const import SINGLE_FILE_OUTPUT_FILE, TOPICS_FILE, USER_QUERY_FILE
 
 
 class DeepResearchWriter(BaseModel):
     desired_output_format: str = Field(
-        ..., description="The desired output format. The only valid value at this time is 'test'"
+        ...,
+        description="The desired output format. The only valid value at this time is 'single_file'",
     )
 
 
 class DeepResearchWriterTool(BaseTool):
     """
-    Tool for starting and managing deep research. This should be used prior to doing any other deep research tools.
+    Tool for writing the output of the Deep research tool
     """
 
     name: str = "Deep Research Writer Tool"
@@ -50,7 +51,10 @@ class DeepResearchWriterTool(BaseTool):
         """
         logging.warning(markdown_prompt)
 
-        return (
-            self.llm.chat_completion([{"role": "system", "content": markdown_prompt}])["content"]
-            + '\n\n\nResearch agent, now use the "finish tool!"'
-        )
+        content = self.llm.chat_completion([{"role": "system", "content": markdown_prompt}])[
+            "content"
+        ]
+
+        self.resource_manager.write_file(SINGLE_FILE_OUTPUT_FILE, content)
+
+        return f"Deep research completed! Check the resource manager for {SINGLE_FILE_OUTPUT_FILE} to view the result!"

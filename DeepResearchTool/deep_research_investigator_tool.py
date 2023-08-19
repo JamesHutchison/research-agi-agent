@@ -20,7 +20,7 @@ class DeepResearchInvestigatorTool(BaseTool):
     Tool for doing deep research on a topic. It may create more topics to research.
     """
 
-    name: str = "Deep Research Tool"
+    name: str = "Deep Research Investigator Tool"
     args_schema: Type[BaseModel] = DeepResearchInvestigator
     description: str = (
         "Tool to research a topic by searching the internet, taking notes, and identifying possible "

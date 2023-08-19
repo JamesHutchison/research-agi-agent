@@ -1,4 +1,5 @@
 import json
+import logging
 from dataclasses import asdict, dataclass
 
 from superagi.resource_manager.file_manager import FileManager
@@ -15,6 +16,7 @@ class Topic:
     researched: bool = False
 
     def initialize_notes_file(self, file_manager: FileManager) -> None:
+        logging.info(f"Initializing notes file: {self.notes_file}")
         file_manager.write_file(self.notes_file, json.dumps([]))
 
     def mark_as_researched(self, file_manager: FileManager) -> None:

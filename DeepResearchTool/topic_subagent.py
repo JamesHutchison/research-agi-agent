@@ -24,10 +24,14 @@ class TopicSubAgent:
             "come up with a single web search query to try to find information on the topic."
         )
         result = do_chat_and_log_it(self._llm, [{"role": "system", "content": query}])
-        return result
+        return result.strip('"')
 
     def _get_target_urls_for_results(self, search_results) -> list[str]:
-        return [result["link"] for result in search_results]
+        try:
+            return [result["link"] for result in search_results]
+        except:
+            logging.exception(f"Could not get links from {search_results}")
+            raise
 
     def do_research(self) -> str:
         user_query = self._file_manager.read_file(USER_QUERY_FILE)
@@ -98,7 +102,7 @@ For example, instead of 'Environmental Impact', use 'Fluoride's Environmental Co
         return json.loads(result)
 
     def maybe_add_subtopics(self, subtopics: list[str]) -> None:
-        logging.warning("NOT IMPLEMENTED - Would possibly add subtopics {subtopics}")
+        logging.warning(f"NOT IMPLEMENTED - Would possibly add subtopics {subtopics}")
 
     def update_notes_file(self, url: str, notes: str) -> None:
         notes_file = self._topic.notes_file

@@ -56,5 +56,7 @@ class DeepResearchInvestigatorTool(BaseTool):
             if topic_obj["name"] == topic:
                 TopicSubAgent(Topic(**topic_obj), self.resource_manager, self.llm).do_research()
 
-                return f"Deep research completed for topic {topic}!"
+                return (
+                    f"Deep research completed for topic {topic}! Do not research {topic} again!"
+                )
         raise Exception("Should not be here! Topic validation failed!")

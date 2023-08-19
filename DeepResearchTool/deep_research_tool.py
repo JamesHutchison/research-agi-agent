@@ -142,6 +142,8 @@ The notes_file value should be a file name, no spaces, with a .txt extension."""
         # TODO
 
         TopicsManager(resource_manager).write_topics(topics)
+        for topic in topics:
+            topic.initialize_notes_file(resource_manager)
 
         resource_manager.write_file(USER_QUERY_FILE, user_query)
 

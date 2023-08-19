@@ -117,7 +117,7 @@ When creating topics, avoid specific permutations, subtopics, or detailed breakd
 and understandable without additional context. If uncertain about a topic, leave the 'description' field empty.
 For example, instead of 'Environmental Impact', use 'Fluoride's Environmental Consequences'.
 The 'name', 'description', 'relevant_because', and 'notes_file' fields are all required!
-The notes_file value should be a file name, no spaces, with a .txt extension."""
+The notes_file value should be a file name, no spaces, with a .json extension."""
                         "If you don't know what something is, leave the description field as an empty string.\n\nJSON:\n"
                     ),
                 },

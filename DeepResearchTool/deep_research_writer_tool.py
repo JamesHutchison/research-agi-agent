@@ -1,3 +1,4 @@
+import logging
 from typing import Optional, Type
 
 from pydantic import BaseModel, Field
@@ -47,8 +48,9 @@ class DeepResearchWriterTool(BaseTool):
 
         Markdown file contents:
         """
+        logging.warning(markdown_prompt)
 
         return (
-            self.llm.chat_completion([{"role": "system", "content": markdown_prompt}])
-            + "\nYou are done!"
+            self.llm.chat_completion([{"role": "system", "content": markdown_prompt}])["content"]
+            + '\n\n\nResearch agent, now use the "finish tool!"'
         )

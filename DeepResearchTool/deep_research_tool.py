@@ -1,3 +1,5 @@
+import json
+import logging
 from typing import Optional, Type
 
 from pydantic import BaseModel, Field
@@ -34,31 +36,45 @@ class DeepResearchManagerTool(BaseTool):
         if user_query is None:
             return "A user query was not provided and is required"
         query_issues_instructions = "Determine whether the user query is a good fit for research."
-        result = self.llm.chat_completion(
-            [
-                {
-                    "role": "system",
-                    "content": " ".join(
-                        [
-                            "You are a research tool, and will be researching this user query.",
-                            query_issues_instructions,
-                        ]
-                    ),
-                },
-                {
-                    "role": "user",
-                    "content": user_query,
-                },
-                {
-                    "role": "system",
-                    "content": (
-                        "Determine if the user query is suitable for research. If is, reply with 'OK!'. "
-                        "Otherwise, reply with a short sentence what is wrong with the query."
-                    ),
-                },
-            ]
-        )
-        if result["content"] == "OK!":
+        chat_query = [
+            {
+                "role": "system",
+                "content": " ".join(
+                    [
+                        "You are a research tool, and will be researching this user query.",
+                        query_issues_instructions,
+                    ]
+                ),
+            },
+            {
+                "role": "user",
+                "content": "user query: " + user_query,
+            },
+            {
+                "role": "system",
+                "content": (
+                    """
+Use the following rules to determine if a user query previously given is appropriate for research:
+
+The topic is based on scientific, economic, or sociological principles.
+The topic is not based on conspiracy theories or unproven myths.
+The topic is not biased or written in a sarcastic or mocking tone.
+The topic is broad enough to warrant extensive research.
+Not Appropriate for Deep Extensive Research:
+
+The topic is based on conspiracy theories, myths, or fictional characters.
+The topic is written in a biased, sarcastic, or mocking tone.
+The topic is too narrow or specific to warrant extensive research.
+"""
+                    "Reason through why the user query is appropriate. If is, state the reasons and reply with '!!!OK!!!' "
+                    "Otherwise, reply with a short sentence what is wrong with the query."
+                ),
+            },
+        ]
+        result = self.llm.chat_completion(chat_query)
+        logging.warning(json.dumps(chat_query))
+        logging.warning(result["content"])
+        if "!!!OK!!!" in result["content"]:
             return None
         return result["content"]
 
@@ -82,7 +98,12 @@ class DeepResearchManagerTool(BaseTool):
                     "role": "system",
                     "content": (
                         "Return a json list of topics, containing a 'name' field and a 'description' field. "
-                        "Do not exceed 10 topics. Be short and stick to only major items. Do not create permutations and subtopics."
+                        """
+Examine the following information and extract the broadest and most general research topics.
+Provide a JSON list of these topics, each with a 'name' and a 'description' field. Limit to 5 major topics.
+Avoid specific permutations, subtopics, or detailed breakdowns. Each topic name should be self-explanatory
+and understandable without additional context. If uncertain about a topic, leave the 'description' field empty.
+For example, instead of 'Environmental Impact', use 'Fluoride's Environmental Consequences'. """
                         "If you don't know what something is, leave the description field as an empty string."
                     ),
                 },
@@ -101,7 +122,7 @@ class DeepResearchManagerTool(BaseTool):
 
             # run user query validation tool to see if we should proceed
             if user_query_issues := self._user_query_issues(user_query):
-                return f"The provided user query is not a good fit for research. Reasons: {user_query_issues}"
+                return f"The provided user query is not a good fit for deep research. Reasons: {user_query_issues}"
 
             assert user_query
 

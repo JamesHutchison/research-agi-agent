@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 
 */secrets.toml
+
+SUMMARY_DEBUG_OUTPUT.md

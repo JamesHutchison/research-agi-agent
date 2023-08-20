@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Run summary debug",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/summary_debug.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Run backend",
             "type": "python",
             "request": "launch",

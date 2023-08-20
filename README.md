@@ -40,7 +40,7 @@ If we use SuperAGI for implementing this agent, here are the components and capa
   - The agent should progressively solve tasks and avoid falling down rabbit holes
   - The agent should clearly recognize when it is done researching
   - The agent should not get side-tracked and start solving irrelevant tasks
- 
+
 ## Components
 - Internet search - this is provided by SuperAGI
 - Scholarly article search - out of scope for this hackathon
@@ -49,3 +49,19 @@ If we use SuperAGI for implementing this agent, here are the components and capa
   - Deep Research Tool - Will initialize the process and help the AI coordinate its thoughts and notes
   - Research Article Generation Tool - Will generate the markdown document containing the findings and results
   - Other bridge tools - We will need to evaluate how, for example, we would get the AI to read a scraped article in the context of this research.
+
+# How to run
+- Start a codespace
+- Populate the .env file with:
+  - `GOOGLE_API_KEY`
+  - `GOOGLE_CSE_ID`
+- Once it finishes the postStartCommand:
+  - Run the "Run backend and Celery" run configuration
+  - Run the task (Terminal menu -> Run Task) "Start Super AGI Docker containers"
+  - Go to the "Ports" tab and change 3000 to a public port, then click on the planet icon when you hover your mouse over the "Local Address" cell for it
+
+# Shortcut to Summary Debugging
+- To avoid rerunning the agent when developing the summary generation, there is a script summary_debug.py in the root directory
+- Populate the .env file with:
+  - `OPENAI_API_KEY`
+- The run configuration "Run summary debug" will run this

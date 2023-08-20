@@ -91,6 +91,8 @@ Notes: {notes}
         may be true or false, then define it. If you cannot, then identify further research needed to get there. Do not make anything up!
         If you do not know why you know something, then do not mention it, or identify further research needed to confirm it.
 
+        Use inline citations.
+
         Markdown file contents:
         """
         logging.warning(markdown_prompt)

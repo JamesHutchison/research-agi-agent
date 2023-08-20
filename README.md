@@ -20,3 +20,32 @@ The AGI agent will generate a research document summarizing the claim, the ramif
 
 # Quickstart
 This repo has a dev container configuration. Simply create a new Codespace in GitHub.
+
+# SuperAGI tooling breakdown
+If we use SuperAGI for implementing this agent, here are the components and capabilities we see necessary
+
+## Capabilities
+- Internet Search - The agent needs to be able to input aquery and derive one or more web URLs it believes is worth visiting
+- Internet Scraping - The agent needs to be able to load a web page and read the contents. It needs to support web pages that require javascript
+- Internal memory requirements:
+  - The agent needs to be able to read a scraped web page and take relevant notes like a human would. The agent needs to be able to store these notes somewhere for later review
+  - Having a vector database does not seem to be a requirement as the agent is to be thorough and will employ a dividge and conquer strategy for doing research. Notes are not expected to be so dense it can't fit in the context.
+  - The agent likely needs a way to get a high level view of what it has done, what it has left to do, and what it should do next
+- Output requirements:
+  - The agent needs to be able to generate a potentially large markdown file or set of files and provide them to the user
+  - The agent may be able to generate images and would need to be able to reference them in the markdown files
+  - The agent may be able to generate code and would need to be able to display them
+- Coherency requirements:
+  - The agent cannot get stuck in a loop
+  - The agent should progressively solve tasks and avoid falling down rabbit holes
+  - The agent should clearly recognize when it is done researching
+  - The agent should not get side-tracked and start solving irrelevant tasks
+ 
+## Components
+- Internet search - this is provided by SuperAGI
+- Scholarly article search - out of scope for this hackathon
+- Internet scraping - This is provided by SuperAGI
+- Deep Research Toolkit - We will create this
+  - Deep Research Tool - Will initialize the process and help the AI coordinate its thoughts and notes
+  - Research Article Generation Tool - Will generate the markdown document containing the findings and results
+  - Other bridge tools - We will need to evaluate how, for example, we would get the AI to read a scraped article in the context of this research.

@@ -1,0 +1,37 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Super AGI docker containers",
+            "type": "shell",
+            "command": "docker compose up",
+            "problemMatcher": []
+        },
+        {
+            "label": "Regenerate requirements.txt",
+            "type": "shell",
+            "command": "poetry export --output requirements.txt",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run migrations",
+            "type": "shell",
+            "command": "cd /workspaces/research-agi-agent && PYTHONPATH=/workspaces/SuperAGI alembic upgrade head",
+            "problemMatcher": []
+        },
+        {
+            "label": "Get run instructions",
+            "type": "shell",
+            "command": "echo '\nUsing codespaces:\n\nRun the backend and Celery launch configuration. Then run the \"Start Super AGI docker containers\" task.\nAfter that, go to ports in VS Code and change port 3000 to public, and click on the icon to open it in a browser\n\n'",
+            "problemMatcher": []
+        },
+        {
+            "label": "How to search the SuperAGI repo",
+            "type": "shell",
+            "command": "echo '\nIf you add \"/workspaces/SuperAGI\" it to the workspace, the Rust extension will break due to a bug.\nInstead, you can set the files to include to \"/workspaces/SuperAGI\" and for files to exclude,\ndisable the \"Use Exclude Settings and Ignore Files\" button (cog with minus sign)\n\n'",
+            "problemMatcher": []
+        }
+    ]
+}

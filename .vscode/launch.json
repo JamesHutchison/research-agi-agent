@@ -5,6 +5,41 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Run backend",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "envFile": "${workspaceFolder}/.env",
+            "args": [
+                "main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8001",
+                "--reload"
+            ],
+            "justMyCode": false,
+            "cwd": "/workspaces/SuperAGI",
+            "preLaunchTask": "Run migrations"
+        },
+        {
+            "name": "Run Celery",
+            "type": "python",
+            "request": "launch",
+            "module": "celery",
+            "envFile": "${workspaceFolder}/.env",
+            "args": [
+                "-A",
+                "superagi.worker",
+                "worker",
+                "--beat",
+                "--loglevel=info"
+            ],
+            "justMyCode": false,
+            "cwd": "/workspaces/SuperAGI",
+            "preLaunchTask": "Run migrations"
+        },
+        {
             "name": "Python: Debug Unit Tests",
             "type": "python",
             "request": "launch",
@@ -13,6 +48,15 @@
             ],
             "console": "integratedTerminal",
             "justMyCode": false,
+        },
+    ],
+    "compounds": [
+        {
+            "name": "Run backend and Celery",
+            "configurations": [
+                "Run backend",
+                "Run Celery"
+            ],
         }
     ]
 }

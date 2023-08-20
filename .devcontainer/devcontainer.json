@@ -76,5 +76,9 @@
     "mounts": [
         "source=${localWorkspaceFolderBasename}-venv,target=${containerWorkspaceFolder}/.venv,type=volume"
     ],
-    "workspaceFolder": "/workspaces/research-agi-agent"
+    "workspaceFolder": "/workspaces/research-agi-agent",
+    "hostRequirements": {
+        "cpus": 4,
+        "memory": "8gb"
+    }
 }

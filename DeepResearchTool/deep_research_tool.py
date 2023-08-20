@@ -1,14 +1,12 @@
 import json
-import logging
 from typing import Optional, Type
 
 from pydantic import BaseModel, Field
-from regex import F
 from superagi.llms.base_llm import BaseLlm
 from superagi.resource_manager.file_manager import FileManager
 from superagi.tools.base_tool import BaseTool
 
-from DeepResearchTool.const import TOPICS_FILE, USER_QUERY_FILE
+from DeepResearchTool.const import USER_QUERY_FILE
 from DeepResearchTool.helpers import do_chat_and_log_it
 from DeepResearchTool.topic_managers import Topic, TopicsManager
 
@@ -65,7 +63,6 @@ Use the following rules to determine if a user query previously given is appropr
 The topic is based on scientific, economic, or sociological principles.
 The topic is not based on conspiracy theories or unproven myths.
 The topic could be researched on the Internet.
-
 Not Appropriate for Deep Extensive Research:
 
 The topic is based on conspiracy theories, myths, or fictional characters.

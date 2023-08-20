@@ -7,7 +7,30 @@ The user will provide a claim and known supporting information that they wish to
 # Output
 The AGI agent will generate a research document summarizing the claim, the ramifications, related facts. The agent will generate a conclusion that may include areas of further research that are necessary to help substantiate the claim, or the conclusion may point to concrete evidence that refutes the claim.
 
-# Algorithm (draft - WIP)
+# Current usage
+- Create a new agent
+- Instruct the agent to do deep research using the deep research tools
+- Add the Deep Research Toolkit to the agent
+- Agent is goal based, note that with this if something goes wrong the agent may flail and should be paused
+- Start agent
+- Agent should select DeepResearchTool
+- Agent should select DeepResearchInvestigatorTool
+  - This involves several steps
+  - A web search for the top 3 hits
+  - Visiting the top 3 hits and scraping them
+  - Taking the saved info and summarizing them and writing them to notes files
+- Agent should iterate on topics
+- Agent should select DeepResearchWriterTool
+  - Writer tool writes the file output.md
+- Agent should finish
+
+# Observed issues
+- If something goes wrong, like the OpenAI having a random failure, there may be an error such as a JSON parsing one and the agent should be stopped
+- If the agent can't find something useful to take notes about, such as when the scraping fails, it will keep retrying and should be stopped
+
+# Algorithm (Old draft - for reference)
+This algorithm was the starting point and serves as a reference for where things could go in the future
+
 - User enters claim
 - User describes expert that would investigate the claim
 - User adds information they feel is relevant
@@ -22,7 +45,7 @@ The AGI agent will generate a research document summarizing the claim, the ramif
 This repo has a dev container configuration. Simply create a new Codespace in GitHub.
 
 # SuperAGI tooling breakdown
-If we use SuperAGI for implementing this agent, here are the components and capabilities we see necessary
+Here are the components and capabilities we see necessary for a production quality agent
 
 ## Capabilities
 - Internet Search - The agent needs to be able to input aquery and derive one or more web URLs it believes is worth visiting
@@ -65,3 +88,4 @@ If we use SuperAGI for implementing this agent, here are the components and capa
 - Populate the .env file with:
   - `OPENAI_API_KEY`
 - The run configuration "Run summary debug" will run this
+- The logic currently mirrors the `DeepResearchWriterTool`

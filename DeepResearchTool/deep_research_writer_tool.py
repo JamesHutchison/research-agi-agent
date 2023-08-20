@@ -1,3 +1,4 @@
+import json
 import logging
 from typing import Optional, Type
 
@@ -36,16 +37,48 @@ class DeepResearchWriterTool(BaseTool):
         user_query = self.resource_manager.read_file(USER_QUERY_FILE)
         topics = self.resource_manager.read_file(TOPICS_FILE)
 
+        topics_str_list = []
+
+        for topic in json.loads(topics):
+            notes_file = self.resource_manager.read_file(topic["notes_file"])
+            with notes_file.open("r") as f:
+                notes = f.read()
+            # format is:
+            # name, description, notes_file, relevant_because, researched
+            topic_str = f"""
+Topic name: {topic["name"]}
+Topic description: {topic["description"]}
+Relevant because: {topic["relevant_because"]}
+Notes: {notes}
+        """
+            topics_str_list.append(topic_str)
+
         markdown_prompt = f"""
         The user query is: {user_query}
 
         ###
 
-        The topics are: {topics}
+        Given the following topics and notes about the topic, write an article addressing the user query
+        the best you can. If there is an question, try to answer it. If the user query has incorrect
+        facts or assumptions, address that.
 
-        ###
+        Start with a problem statement of some sort based on the user query, then follow up with a conclusion.
+        After the conclusion, explain how that conclusion was derived from the
+        topics researched. If needed, create a section for relevant topic, if it is important enough,
+        and explain how the topic contributes to the conclusion. You do not need to specifically mention
+        the conclusion when describing topics.
 
-        Provide a markdown formatted file describing the topics derived from the user query.
+        When you can, cite your sources
+
+        ### The topics are:
+
+        {"    # next topic #   ".join(topics_str_list)}
+
+        # Reminder! The conclusion should be helpful and specific. If there are upper and lower bounds or circumstances where something
+        may be true or false, then define it. If you cannot, then identify further research needed to get there. Do not make anything up!
+        If you do not know why you know something, then do not mention it, or identify further research needed to confirm it.
+
+        Use inline citations.
 
         Markdown file contents:
         """

@@ -11,6 +11,7 @@ name = "research-agi-agent"
 version = "0.1.0"
 description = ""
 authors = ["James Hutchison <jamesghutchison@proton.me>"]
+authors = ["Muhammad Ibrahim Laeeq <ibrahim.laeeq142@gmail.com>"]
 readme = "README.md"
 packages = [{ include = "research_agi_agent" }]
 

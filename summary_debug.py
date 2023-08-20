@@ -40,6 +40,9 @@ class DeepResearchWriterTool:
 
         self.llm.temperature = 0
 
+        # user_query = self.resource_manager.read_file(USER_QUERY_FILE)
+        # topics = self.resource_manager.read_file(TOPICS_FILE)
+
         with (SAMPLE_DIR / USER_QUERY_FILE).open("r") as f:
             user_query = f.read()
 
@@ -68,9 +71,6 @@ class DeepResearchWriterTool:
         system_message_prompt = SystemMessage(content=markdown_prompt)
         response = self.llm([system_message_prompt])
         content = response.content
-
-        # chain = LLMChain(llm=self.llm, prompt=PromptTemplate.from_template(markdown_prompt))
-        # content = chain.run(markdown_prompt)
 
         print(content)
 

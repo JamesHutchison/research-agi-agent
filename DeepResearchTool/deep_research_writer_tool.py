@@ -40,9 +40,7 @@ class DeepResearchWriterTool(BaseTool):
         topics_str_list = []
 
         for topic in json.loads(topics):
-            notes_file = self.resource_manager.read_file(topic["notes_file"])
-            with notes_file.open("r") as f:
-                notes = f.read()
+            notes = self.resource_manager.read_file(topic["notes_file"])
             # format is:
             # name, description, notes_file, relevant_because, researched
             topic_str = f"""

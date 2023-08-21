@@ -2,6 +2,8 @@ import json
 import logging
 from typing import Optional, Type
 
+from langchain.chat_models import ChatOpenAI
+from langchain.schema import SystemMessage
 from pydantic import BaseModel, Field
 from superagi.llms.base_llm import BaseLlm
 from superagi.resource_manager.file_manager import FileManager
@@ -82,9 +84,18 @@ Notes: {notes}
         """
         logging.warning(markdown_prompt)
 
-        content = self.llm.chat_completion([{"role": "system", "content": markdown_prompt}])[
-            "content"
-        ]
+        OPEN_AI_MODEL = "gpt-4-32k"  # not yet available
+        OPEN_AI_MODEL = "gpt-4"
+
+        chat = ChatOpenAI(model=OPEN_AI_MODEL, temperature=0)
+
+        system_message_prompt = SystemMessage(content=markdown_prompt)
+        response = chat([system_message_prompt])
+        content = response.content
+
+        # content = self.llm.chat_completion([{"role": "system", "content": markdown_prompt}])[
+        #     "content"
+        # ]
 
         self.resource_manager.write_file(SINGLE_FILE_OUTPUT_FILE, content)
 

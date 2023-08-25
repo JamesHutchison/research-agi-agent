@@ -1,4 +1,5 @@
 import json
+import logging
 from typing import Optional, Type
 
 from pydantic import BaseModel, Field
@@ -7,7 +8,7 @@ from superagi.resource_manager.file_manager import FileManager
 from superagi.tools.base_tool import BaseTool
 
 from DeepResearchTool.const import TOPICS_FILE
-from DeepResearchTool.topic_managers import Topic
+from DeepResearchTool.topic_managers import Topic, TopicsManager
 from DeepResearchTool.topic_subagent import TopicSubAgent
 
 
@@ -29,12 +30,12 @@ class DeepResearchInvestigatorTool(BaseTool):
     llm: Optional[BaseLlm] = None
     resource_manager: Optional[FileManager] = None
 
-    def _validate_topic(self, topic: str, topics: list[dict]) -> str | None:
+    def _validate_topic(self, topic: str, topics: list[Topic]) -> str | None:
         assert self.resource_manager
 
         for t in topics:
-            if t["name"] == topic:
-                if t.get("researched", False):
+            if t.name == topic:
+                if t.researched:
                     return (
                         f"Topic {topic} has already been researched. "
                         "Use the Deep Research Tool for guidance on what to do next."
@@ -46,17 +47,32 @@ class DeepResearchInvestigatorTool(BaseTool):
         )
 
     def _execute(self, topic: str) -> str:
-        assert self.resource_manager
+        try:
+            assert self.resource_manager
 
-        topics = json.loads(self.resource_manager.read_file(TOPICS_FILE))
-        if (err_msg := self._validate_topic(topic, topics)) is not None:
-            return err_msg
+            tm = TopicsManager(self.resource_manager)
 
-        for topic_obj in topics:
-            if topic_obj["name"] == topic:
-                TopicSubAgent(Topic(**topic_obj), self.resource_manager, self.llm).do_research()
+            topics = tm.load_topics()
+            if (err_msg := self._validate_topic(topic, topics)) is not None:
+                return err_msg
 
-                return (
-                    f"Deep research completed for topic {topic}! Do not research {topic} again!"
-                )
-        raise Exception("Should not be here! Topic validation failed!")
+            for topic_obj in topics:
+                if topic_obj.name == topic:
+                    TopicSubAgent(topic_obj, self.resource_manager, self.llm).do_research()
+
+                    # reload topics and determine if still some remaining
+                    topics = tm.load_topics()
+
+                    return_str = f"Deep research completed for topic {topic}! Do not research {topic} again!"
+                    for potential_next_topic in topics:
+                        if not potential_next_topic.researched:
+                            return_str += (
+                                "\n\nNew topics to research may have been created! "
+                                f"Next topic to research: {potential_next_topic.name}"
+                            )
+                            break
+                    return return_str
+            raise Exception("Should not be here! Topic validation failed!")
+        except Exception as e:
+            logging.exception("")
+            raise

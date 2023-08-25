@@ -10,14 +10,18 @@ line-length = 98
 name = "research-agi-agent"
 version = "0.1.0"
 description = ""
-authors = ["James Hutchison <jamesghutchison@proton.me>", "Muhammad Ibrahim Laeeq <ibrahim.laeeq142@gmail.com>"]
+authors = [
+    "James Hutchison <jamesghutchison@proton.me>",
+    "Muhammad Ibrahim Laeeq <ibrahim.laeeq142@gmail.com>",
+]
 readme = "README.md"
-packages = [{ include = "research_agi_agent" }]
+packages = [{ include = "DeepResearchTool" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 superagi-tools = "^1.0.7"
 langchain = "^0.0.268"
+megamock = "^0.1.0b7"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -25,7 +29,11 @@ mypy = "^1.5.0"
 ruff = "^0.0.284"
 black = "^23.7.0"
 pytest = "^7.4.0"
+pytest-dotenv = "^0.5.2"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
